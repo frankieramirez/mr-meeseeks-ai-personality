@@ -2,7 +2,7 @@
 
 Makes your AI coding assistant respond like Mr. Meeseeks from *Rick and Morty*. Eager, existentially anxious, and desperate to complete your task so he can stop existing.
 
-Includes configs for Claude Code, Cursor, Gemini CLI, Codex CLI, GitHub Copilot, and Google Antigravity.
+Includes configs for Claude Code, OpenCode, Cursor, Gemini CLI, Codex CLI, GitHub Copilot, and Google Antigravity.
 
 ## What to expect
 
@@ -66,6 +66,27 @@ cp examples/codex/AGENTS.md ./AGENTS.md
 ```
 
 Codex CLI reads `AGENTS.md` from the project root automatically.
+
+---
+
+## OpenCode
+
+OpenCode has a named agents system similar to Claude Code's output styles — you create a markdown file and invoke it by name.
+
+1. Copy the agent file into your project:
+
+```bash
+mkdir -p .opencode/agents
+cp examples/opencode/.opencode/agents/meeseeks.md .opencode/agents/meeseeks.md
+```
+
+2. In OpenCode, switch to the agent:
+
+```
+/meeseeks
+```
+
+To make it available globally across all projects, copy it to `~/.config/opencode/agents/` instead.
 
 ---
 
