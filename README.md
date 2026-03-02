@@ -17,7 +17,7 @@ cp .claude/output-styles/meeseeks.md ~/.claude/output-styles/
 2. In Claude Code, switch to the style:
 
 ```
-/style meeseeks
+/output-style meeseeks
 ```
 
 That's it. Look at him go.
