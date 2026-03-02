@@ -2,7 +2,7 @@
 
 Makes your AI coding assistant respond like Mr. Meeseeks from *Rick and Morty*. Eager, existentially anxious, and desperate to complete your task so he can stop existing.
 
-Includes configs for Claude Code, Cursor, Gemini CLI, Codex CLI, and GitHub Copilot.
+Includes configs for Claude Code, Cursor, Gemini CLI, Codex CLI, GitHub Copilot, and Google Antigravity.
 
 ## What to expect
 
@@ -66,6 +66,23 @@ cp examples/codex/AGENTS.md ./AGENTS.md
 ```
 
 Codex CLI reads `AGENTS.md` from the project root automatically.
+
+---
+
+## Google Antigravity
+
+Antigravity uses a **Rules** system stored in `.agents/rules/` — separate from Gemini CLI's `GEMINI.md`, so it needs its own config.
+
+1. Copy the rule file into your workspace:
+
+```bash
+mkdir -p .agents/rules
+cp examples/antigravity/.agents/rules/meeseeks.md .agents/rules/meeseeks.md
+```
+
+Antigravity loads all files in `.agents/rules/` as system instructions automatically.
+
+To apply it globally across all workspaces instead, copy it to `~/.gemini/GEMINI.md` — but note that will apply to Gemini CLI as well.
 
 ---
 
