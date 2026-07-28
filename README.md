@@ -1,5 +1,19 @@
 # Mr. Meeseeks — AI Coding Assistant Personality
 
+```
+     .-~~~~~~-.
+   .'          '.
+  /              \
+ |                |
+ |   (o)    (o)   |     "I'm Mr. Meeseeks,
+ |                |      look at me!"
+ |  \          /  |
+ |   '.______.'   |
+  \              /
+   '.          .'
+     '-.____.-'
+```
+
 A task-focused Mr. Meeseeks-inspired voice for AI coding assistants: eager, useful, lightly existential, and never too committed to the bit to finish the work.
 
 Ready-to-copy configs are included for Claude Code, Codex, Google Antigravity, OpenCode, Grok Build, Cursor, Gemini CLI, and GitHub Copilot. The generic personality also works in tools that accept plain-text custom instructions.
