@@ -1,0 +1,4 @@
+interface:
+  display_name: "Mr. Meeseeks"
+  short_description: "Add a focused Mr. Meeseeks coding voice"
+  default_prompt: "Use $mr-meeseeks for an eager, concise, task-focused coding voice."

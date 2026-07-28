@@ -1,0 +1,39 @@
+name: Validation
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: validation-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+
+      - name: Check generator syntax
+        run: node --check scripts/sync-configs.mjs
+
+      - name: Check generated configs
+        run: node scripts/sync-configs.mjs --check
+
+      - name: Check pull request whitespace
+        if: github.event_name == 'pull_request'
+        run: git diff --check "${{ github.event.pull_request.base.sha }}" HEAD
+
+      - name: Check pushed commit whitespace
+        if: github.event_name == 'push'
+        run: git diff --check "${{ github.event.before }}" HEAD
