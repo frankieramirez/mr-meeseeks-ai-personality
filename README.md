@@ -35,13 +35,20 @@ The current version is deliberately less repetitive than the original:
 | Tool | Copy config to | Activate |
 | --- | --- | --- |
 | Claude Code | `~/.claude/output-styles/meeseeks.md` | Select `meeseeks` in `/config`, then run `/clear` or start a new session |
-| Codex | `AGENTS.md` in a project, or `~/.codex/AGENTS.md` globally | Start a new Codex session |
+| Codex | ⚠️ `AGENTS.md` in a project, or `~/.codex/AGENTS.md` globally | Start a new Codex session |
 | Google Antigravity | `.agents/rules/meeseeks.md` | Start a new conversation |
 | OpenCode | `.opencode/agents/meeseeks.md` or `~/.config/opencode/agents/meeseeks.md` | Switch primary agents with Tab or your configured agent keybind |
-| Grok Build | `AGENTS.md` in a project | Start Grok in that project |
+| Grok Build | ⚠️ `AGENTS.md` in a project | Start Grok in that project |
 | Cursor | `.cursor/rules/meeseeks.mdc` | Automatic because `alwaysApply` is enabled |
-| Gemini CLI | `GEMINI.md` in a project, or `~/.gemini/GEMINI.md` globally | Start a session or run `/memory reload` |
-| GitHub Copilot | `.github/copilot-instructions.md` | Automatic for supported Copilot features |
+| Gemini CLI | ⚠️ `GEMINI.md` in a project, or `~/.gemini/GEMINI.md` globally | Start a session or run `/memory reload` |
+| GitHub Copilot | ⚠️ `.github/copilot-instructions.md` | Automatic for supported Copilot features |
+
+> **⚠️ Merge, don't overwrite.** Destinations marked ⚠️ are shared instruction files that your project or your machine may already use for unrelated rules. Copying over one of them destroys whatever was there. The commands below guard those destinations and tell you when to merge by hand; a merge just means appending the contents of the config file as a new section. Unmarked destinations are `meeseeks`-specific files that nothing else writes to, so they are copied directly.
+>
+> Two overlaps are worth knowing about before you start:
+>
+> - **Google Antigravity (global) and Gemini CLI (global) are the same file** (`~/.gemini/GEMINI.md`). Install one or merge both into a single file — running both sections in order would otherwise leave only the second.
+> - **Codex and Grok Build share project-level `AGENTS.md`**, which is fine: the two generated configs are byte-identical by design, so installing either covers both tools.
 
 ### Claude Code
 
@@ -61,14 +68,18 @@ Open `/config`, choose `meeseeks` under **Output style**, then run `/clear` or s
 Project-only:
 
 ```bash
-cp configs/codex.md ./AGENTS.md
+test -e ./AGENTS.md \
+  && echo "AGENTS.md exists — review it, then append with: cat configs/codex.md >> ./AGENTS.md" \
+  || cp configs/codex.md ./AGENTS.md
 ```
 
 Global:
 
 ```bash
 mkdir -p ~/.codex
-cp configs/codex.md ~/.codex/AGENTS.md
+test -e ~/.codex/AGENTS.md \
+  && echo "~/.codex/AGENTS.md exists — review it, then append with: cat configs/codex.md >> ~/.codex/AGENTS.md" \
+  || cp configs/codex.md ~/.codex/AGENTS.md
 ```
 
 [Codex `AGENTS.md` documentation](https://developers.openai.com/codex/guides/agents-md/)
@@ -80,7 +91,7 @@ mkdir -p .agents/rules
 cp configs/antigravity.md .agents/rules/meeseeks.md
 ```
 
-For a global rule, copy the file to `~/.gemini/GEMINI.md`. That location is also shared with Gemini CLI.
+For a global rule, install to `~/.gemini/GEMINI.md` using the [Gemini CLI](#gemini-cli) commands below — Antigravity reads the same file. Do not run both sections: pick one, or merge the personality into that file once.
 
 [Google Antigravity customization documentation](https://codelabs.developers.google.com/getting-started-agy-ide)
 
@@ -107,10 +118,12 @@ This config is a primary agent. Switch to it with Tab or your configured `switch
 ### Grok Build
 
 ```bash
-cp configs/grok-build.md ./AGENTS.md
+test -e ./AGENTS.md \
+  && echo "AGENTS.md exists — review it, then append with: cat configs/grok-build.md >> ./AGENTS.md" \
+  || cp configs/grok-build.md ./AGENTS.md
 ```
 
-Grok Build and Codex can share the same project-level `AGENTS.md`; the two generated configs intentionally have identical content.
+Grok Build and Codex share the same project-level `AGENTS.md`, and the two generated configs intentionally have identical content — so if you already installed the Codex config here, you are done and the guard above will correctly tell you to leave the file alone.
 
 [Grok Build `AGENTS.md` compatibility documentation](https://docs.x.ai/build/features/skills-plugins-marketplaces)
 
@@ -130,14 +143,18 @@ To make the rule opt-in, change `alwaysApply: true` to `alwaysApply: false`, the
 Project-only:
 
 ```bash
-cp configs/gemini-cli.md ./GEMINI.md
+test -e ./GEMINI.md \
+  && echo "GEMINI.md exists — review it, then append with: cat configs/gemini-cli.md >> ./GEMINI.md" \
+  || cp configs/gemini-cli.md ./GEMINI.md
 ```
 
-Global:
+Global — note this is the same file Google Antigravity uses for global rules:
 
 ```bash
 mkdir -p ~/.gemini
-cp configs/gemini-cli.md ~/.gemini/GEMINI.md
+test -e ~/.gemini/GEMINI.md \
+  && echo "~/.gemini/GEMINI.md exists — review it, then append with: cat configs/gemini-cli.md >> ~/.gemini/GEMINI.md" \
+  || cp configs/gemini-cli.md ~/.gemini/GEMINI.md
 ```
 
 [Gemini CLI context-file documentation](https://geminicli.com/docs/cli/gemini-md/)
@@ -146,7 +163,9 @@ cp configs/gemini-cli.md ~/.gemini/GEMINI.md
 
 ```bash
 mkdir -p .github
-cp configs/copilot.md .github/copilot-instructions.md
+test -e .github/copilot-instructions.md \
+  && echo "copilot-instructions.md exists — review it, then append with: cat configs/copilot.md >> .github/copilot-instructions.md" \
+  || cp configs/copilot.md .github/copilot-instructions.md
 ```
 
 [GitHub Copilot custom-instructions documentation](https://docs.github.com/copilot/customizing-copilot/adding-custom-instructions-for-github-copilot)

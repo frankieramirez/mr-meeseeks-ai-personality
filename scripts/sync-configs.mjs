@@ -58,7 +58,10 @@ for (const [relativePath, contents] of Object.entries(generatedFiles)) {
   const path = resolve(root, relativePath);
 
   if (check) {
-    const current = await readFile(path, "utf8").catch(() => "");
+    const current = await readFile(path, "utf8").catch((error) => {
+      if (error.code === "ENOENT") return "";
+      throw error;
+    });
     if (current !== normalizedOutput) stale.push(relativePath);
   } else {
     await writeFile(path, normalizedOutput);
